@@ -4,5 +4,3 @@
 /**
  * 
  */
-module week3Labs {
-}

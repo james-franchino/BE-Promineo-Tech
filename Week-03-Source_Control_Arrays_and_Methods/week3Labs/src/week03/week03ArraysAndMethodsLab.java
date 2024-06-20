@@ -130,10 +130,19 @@ public class week03ArraysAndMethodsLab {
         
         // 16. Write and test a method that takes an array of string and a string and 
         //            returns true if the string passed in exists in the array
+            String[] sampleArray = {"apple", "banana", "cherry", "date"};
+            String targetString1 = "banana";
+            String targetString2 = "grape";
+            
+            System.out.println("Array contains 'banana': " + containsString(sampleArray, targetString1)); 
+            System.out.println("Array contains 'grape': " + containsString(sampleArray, targetString2));
         
         
         // 17. Write and test a method that takes an array of int and 
         //            returns the smallest number in the array
+            int[] sampleArray1 = {34, 7, 23, -4, 18, 0};
+            
+            System.out.println("Smallest number in the array: " + findSmallestNumber(sampleArray1));
     
         
         // 18. Write and test a method that takes an array of double and 
@@ -173,9 +182,30 @@ public class week03ArraysAndMethodsLab {
 
     
     // Method 16:
+    public static boolean containsString(String[] array, String target) {
+        for (String element : array) {
+            if (element.equals(target)) {
+                return true;
+            }
+        }
+        return false;
+        }
 
     
     // Method 17:
+        public static int findSmallestNumber(int[] array) {
+            if (array == null || array.length == 0) {
+                throw new IllegalArgumentException("Array must not be null or empty");
+            }
+            
+            int smallest = array[0];
+            for (int number : array) {
+                if (number < smallest) {
+                    smallest = number;
+                }
+            }
+            return smallest;
+        }
 
     
     // Method 18:
