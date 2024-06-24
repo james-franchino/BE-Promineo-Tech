@@ -1,6 +1,6 @@
-# Sample Application
+# Sample Applications
 
-This application was created as part of a lesson. It is not original work and was developed while following along with a tutorial.
+These applications were created as part of a lesson. They are not original work and were developed while following along with a tutorial.
 
 ## Disclaimer
 
