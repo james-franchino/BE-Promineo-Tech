@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="Coding-Assignments/src"/>
+	<classpathentry kind="src" path="Final-Projects/src"/>
+	<classpathentry kind="src" path="Labs/src"/>
+	<classpathentry kind="src" path="Week-02-Conditions_and_Loops/week2Labs/src"/>
+	<classpathentry kind="src" path="Week-03-Source_Control_Arrays_and_Methods/week3Labs/src"/>
+	<classpathentry kind="src" path="Week04CodingAssignment/week04CodingAssignment/src"/>
+	<classpathentry kind="src" path="Week-04-Collections/src"/>
+	<classpathentry kind="src" path="Week-04-Collections/week04/src"/>
+	<classpathentry kind="src" path="Week-05-Object_Oriented_Programming/Week05MenuApp/src"/>
+	<classpathentry kind="output" path="Coding-Assignments/out/production/Coding-Assignments"/>
+</classpath>
