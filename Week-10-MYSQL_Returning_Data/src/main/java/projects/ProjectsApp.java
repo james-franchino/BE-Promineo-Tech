@@ -68,15 +68,6 @@ public class ProjectsApp {
         System.out.println("You are now working with project: " + curProject);
     }
 
-    /*private void selectProjects() throws SQLException {
-        listProjects();
-        Integer projectId = getIntInput("Please enter the project ID: ");
-
-        curProject = null;
-
-        curProject = projectService.fetchProjectById(projectId);
-    }*/
-
     private void listProjects() throws SQLException {
         List<Project> projects = projectService.fetchAllProjects();
 
@@ -151,7 +142,6 @@ public class ProjectsApp {
 
         operations.forEach(line -> System.out.println(" " + line));
 
-        //curProject = null;
 
         if (Objects.isNull(curProject)) {
             System.out.println("\nYou're not working with any projects. ");

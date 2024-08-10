@@ -1,7 +1,7 @@
 /**
  * 
  */
-package entity;
+package provided.entity;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -42,7 +42,7 @@ public abstract class EntityBase {
           twoFactor.factor < threeFactor.factor ? twoFactor : threeFactor;
 
       /*
-       * Only use the whole part if it's greater than zero. Otherwise, this would
+       * Only use the whole part if it's greater than zero. Otherwise this would
        * generate values like "0 1/2" instead of "1/2".
        */
       if (wholePart > 0) {
