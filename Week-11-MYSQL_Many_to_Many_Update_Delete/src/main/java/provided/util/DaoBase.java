@@ -1,5 +1,5 @@
 /**
- *
+ * 
  */
 package provided.util;
 
@@ -20,7 +20,7 @@ import java.util.Objects;
 
 /**
  * This class contains utility methods for the DAO class.
- *
+ * 
  * @author Promineo
  *
  */
@@ -29,7 +29,7 @@ public abstract class DaoBase {
    * This starts a MySQL transaction. Normally MySQL starts a transaction before every request and
    * commits it after each request. By turning auto-commit off, the transaction is only committed
    * when the application tells it to.
-   *
+   * 
    * @param conn The connection on which to start the transaction.
    * @throws SQLException Thrown if an error occurs starting the transaction.
    */
@@ -39,7 +39,7 @@ public abstract class DaoBase {
 
   /**
    * Commit the transaction. This will write all the changes, if any, to the database.
-   *
+   * 
    * @param conn The connection on which to commit the transaction.
    * @throws SQLException Thrown if an error occurs committing the transaction.
    */
@@ -49,7 +49,7 @@ public abstract class DaoBase {
 
   /**
    * Rolls back the changes so that nothing is committed.
-   *
+   * 
    * @param conn The connection on which to roll back the transaction.
    * @throws SQLException Thrown if an error occurs rolling back the transaction.
    */
@@ -60,7 +60,7 @@ public abstract class DaoBase {
   /**
    * This sets a parameter on a prepared statement. If the parameter is null, it is handled
    * correctly.
-   *
+   * 
    * @param stmt The prepared statement on which to set the parameter.
    * @param parameterIndex This is the one-based index of the parameter. In the SQL that is bound to
    *        the prepared statement, parameters are indicated by a question mark. From left-to-right,
@@ -72,7 +72,7 @@ public abstract class DaoBase {
    * @throws SQLException Thrown if an error occurs.
    */
   protected void setParameter(PreparedStatement stmt, int parameterIndex, Object value,
-                              Class<?> classType) throws SQLException {
+      Class<?> classType) throws SQLException {
     int sqlType = convertJavaClassToSqlType(classType);
 
     if(Objects.isNull(value)) {
@@ -108,7 +108,7 @@ public abstract class DaoBase {
 
   /**
    * Converts from a Java class to a java.sql.Types value.
-   *
+   * 
    * @param classType The class type
    * @return A java.sql.Types value
    */
@@ -140,7 +140,7 @@ public abstract class DaoBase {
    * This retrieves the number of child rows and adds one to the value. It is used to set the order
    * of a child row. For a *real* application, a more sophisticated approach is desired. This method
    * does not allow for entity reordering and does not allow for an entity to be deleted.
-   *
+   * 
    * @param conn The connection
    * @param id The ID of the parent entity
    * @param tableName The name of the table with the child rows
@@ -149,7 +149,7 @@ public abstract class DaoBase {
    * @throws SQLException Thrown if an error occurs.
    */
   protected Integer getNextSequenceNumber(Connection conn, Integer id, String tableName,
-                                          String idName) throws SQLException {
+      String idName) throws SQLException {
     String sql = "SELECT COUNT(*) FROM " + tableName + " WHERE " + idName + " = ?";
 
     try(PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -168,11 +168,11 @@ public abstract class DaoBase {
   /**
    * This returns the integer primary key value of the last row inserted into the given table. It
    * allows the ID to be inserted into the entity object after inserting it into the table.
-   *
+   * 
    * The other way of doing this is to call {@link Statement#getGeneratedKeys()}, but this returns a
    * result set that needs to be parsed for the ID. It's not really any easier than this approach
    * but should be closer to database-agnostic.
-   *
+   * 
    * @param conn The connection
    * @param table The name of the table on which to get the last inserted primary key value
    * @return The primary key value
@@ -204,26 +204,26 @@ public abstract class DaoBase {
    * name is numServings, the column name must be num_servings.</li>
    * <li>The value is assigned to the field in the object.</li>
    * </ol>
-   *
+   * 
    * Example: if a query returns values for a recipe, a Recipe object is returned. So:
-   *
+   * 
    * <pre>
    * String sql = "SELECT * from recipe";
    * ResultSet rs = getResultSetSomehow();
-   *
+   * 
    * Recipe recipe = extract(rs, Recipe.class);
    * </pre>
-   *
+   * 
    * Note: if the Java field does not exist in the result set, the value of the field is left
    * unchanged. So, class Recipe has an instance variable:
-   *
+   * 
    * <pre>
    * List<Ingredient> ingredients = new LinkedList<>();
    * </pre>
-   *
+   * 
    * Since the result set does not contain a column named "ingredients", the value is left alone and
    * the list initialization is preserved.
-   *
+   * 
    * @param <T> The Generic for the type of object to create and return.
    * @param rs The result set in which to extract values. The result set must be positioned on the
    *        correct row by the caller.
@@ -288,7 +288,7 @@ public abstract class DaoBase {
 
   /**
    * This converts a camel case value (rowInsertTime) to snake case (row_insert_time).
-   *
+   * 
    * @param identifier The name in camel case to convert.
    * @return The name converted to snake case.
    */
@@ -310,7 +310,7 @@ public abstract class DaoBase {
   /**
    * This class declares the exception throw by the {@link DaoBase} class. It is a thin wrapper for
    * {@link RuntimeException}.
-   *
+   * 
    * @author Promineo
    *
    */

@@ -46,7 +46,7 @@ public class DbConnection {
   public static Connection getConnection() {
     /* This is the JDBC connection string. */
     String url =
-        String.format("jdbc:mysql://%s:%d/%s?user=%s&password=%s&useSSL=false",
+        String.format("jdbc:mysql://%s:%d/%s?user=%s&password=%s&allowPublicKeyRetrieval=true&useSSL=false",
             HOST, PORT, SCHEMA, USER, PASSWORD);
 
     try {
