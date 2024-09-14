@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    username: shelter_user
+    password: shelter_user
+    url: jdbc:mysql://localhost:3306/animal_shelter
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
