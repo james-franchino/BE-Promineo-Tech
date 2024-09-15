@@ -2,10 +2,7 @@ package com.promineotech.animalshelter.entity;
 
 import jakarta.persistence.*;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.antlr.v4.runtime.misc.NotNull;
 
 import java.time.LocalDate;
@@ -37,8 +34,8 @@ public class Staff {
     @Column(name = "hire_date")
     private LocalDate hireDate;
 
+    @EqualsAndHashCode.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shelter_id")
-    @ToString.Exclude
     private Shelter shelter;
 }

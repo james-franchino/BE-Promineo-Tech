@@ -2,10 +2,7 @@ package com.promineotech.animalshelter.entity;
 
 import jakarta.persistence.*;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.List;
@@ -33,11 +30,11 @@ public class Shelter {
 
     private Integer capacity;
 
-    @ToString.Exclude
-    @OneToMany(mappedBy = "shelter")
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "shelter", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Animal> animals;
 
-    @ToString.Exclude
-    @OneToMany(mappedBy = "shelter")
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "shelter", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Staff> staff;
 }

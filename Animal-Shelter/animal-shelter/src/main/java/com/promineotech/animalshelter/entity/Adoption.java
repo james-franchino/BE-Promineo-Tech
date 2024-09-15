@@ -2,6 +2,7 @@ package com.promineotech.animalshelter.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import org.antlr.v4.runtime.misc.NotNull;
@@ -18,14 +19,14 @@ public class Adoption {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long adoptionId;
 
+    @EqualsAndHashCode.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "adopter_id")
-    @NotNull
     private Adopter adopter;
 
+    @EqualsAndHashCode.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "animal_id")
-    @NotNull
     private Animal animal;
 
     @NotNull

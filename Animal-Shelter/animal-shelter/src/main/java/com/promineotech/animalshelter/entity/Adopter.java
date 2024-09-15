@@ -2,10 +2,7 @@ package com.promineotech.animalshelter.entity;
 
 import jakarta.persistence.*;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.antlr.v4.runtime.misc.NotNull;
 
 import java.time.LocalDate;
@@ -39,7 +36,7 @@ public class Adopter {
     @Column(name = "registration_date")
     private LocalDate registrationDate;
 
-    @ToString.Exclude
-    @OneToMany(mappedBy = "adopter")
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "adopter", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Adoption> adoptions;
 }
