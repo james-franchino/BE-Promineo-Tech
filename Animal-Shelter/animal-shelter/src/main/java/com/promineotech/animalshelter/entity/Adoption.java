@@ -1,11 +1,10 @@
 package com.promineotech.animalshelter.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-import org.antlr.v4.runtime.misc.NotNull;
 
 import java.time.LocalDate;
 
@@ -19,22 +18,22 @@ public class Adoption {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long adoptionId;
 
-    @EqualsAndHashCode.Exclude
+    @NotNull(message = "Adopter is required")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "adopter_id")
+    @JoinColumn(name = "adopter_id", nullable = false)
     private Adopter adopter;
 
-    @EqualsAndHashCode.Exclude
+    @NotNull(message = "Animal is required")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "animal_id")
+    @JoinColumn(name = "animal_id", nullable = false)
     private Animal animal;
 
-    @NotNull
+    @NotNull(message = "Adoption date is required")
     @Column(name = "adoption_date")
     private LocalDate adoptionDate;
 
+    @NotNull(message = "Status is required")
     @Enumerated(EnumType.STRING)
-    @NotNull
     private AdoptionStatus status;
 
     public enum AdoptionStatus {

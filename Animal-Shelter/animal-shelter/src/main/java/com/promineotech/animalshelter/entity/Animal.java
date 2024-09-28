@@ -1,9 +1,10 @@
 package com.promineotech.animalshelter.entity;
 
 import jakarta.persistence.*;
-
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.*;
-import org.antlr.v4.runtime.misc.NotNull;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -18,27 +19,31 @@ public class Animal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long animalId;
 
-    @NotNull
+    @NotBlank(message = "Name is required")
     private String name;
 
+    @NotBlank(message = "Species is required")
     private String species;
+
     private String breed;
+
+    @Positive(message = "Age must be a positive number")
     private Integer age;
+
     private String gender;
 
+    @NotNull(message = "Status is required")
     @Enumerated(EnumType.STRING)
     private AnimalStatus status;
 
-    @Column(name = "intake_date")
+    @NotNull(message = "Intake date is required")
     private LocalDate intakeDate;
 
-    @EqualsAndHashCode.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shelter_id")
     private Shelter shelter;
 
-    @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL)
     private List<Adoption> adoptions;
 
     public enum AnimalStatus {
