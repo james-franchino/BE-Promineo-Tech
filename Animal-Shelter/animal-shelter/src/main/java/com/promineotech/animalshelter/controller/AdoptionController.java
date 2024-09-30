@@ -1,7 +1,9 @@
 package com.promineotech.animalshelter.controller;
 
+import com.promineotech.animalshelter.dto.AnimalShelterDTOs.AdoptionDTO;
 import com.promineotech.animalshelter.entity.Adoption;
 import com.promineotech.animalshelter.exception.ResourceNotFoundException;
+import com.promineotech.animalshelter.mapper.AdoptionMapper;
 import com.promineotech.animalshelter.service.AdoptionService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/adoptions")
@@ -18,28 +21,37 @@ public class AdoptionController {
     @Autowired
     private AdoptionService adoptionService;
 
+    @Autowired
+    private AdoptionMapper adoptionMapper;
+
     @GetMapping
-    public ResponseEntity<List<Adoption>> getAllAdoptions() {
-        return new ResponseEntity<>(adoptionService.getAllAdoptions(), HttpStatus.OK);
+    public ResponseEntity<List<AdoptionDTO>> getAllAdoptions() {
+        List<AdoptionDTO> adoptionDTOs = adoptionService.getAllAdoptions().stream()
+                .map(adoptionMapper::toDTO)
+                .collect(Collectors.toList());
+        return new ResponseEntity<>(adoptionDTOs, HttpStatus.OK);
     }
 
     @GetMapping("/{adoptionId}")
-    public ResponseEntity<Adoption> getAdoptionById(@PathVariable Long adoptionId) {
+    public ResponseEntity<AdoptionDTO> getAdoptionById(@PathVariable Long adoptionId) {
         return adoptionService.getAdoptionById(adoptionId)
-                .map(adoption -> new ResponseEntity<>(adoption, HttpStatus.OK))
+                .map(adoption -> new ResponseEntity<>(adoptionMapper.toDTO(adoption), HttpStatus.OK))
                 .orElseThrow(() -> new ResourceNotFoundException("Adoption not found with id: " + adoptionId));
     }
 
     @PostMapping
-    public ResponseEntity<Adoption> createAdoption(@Valid @RequestBody Adoption adoption) {
-        return new ResponseEntity<>(adoptionService.createAdoption(adoption), HttpStatus.CREATED);
+    public ResponseEntity<AdoptionDTO> createAdoption(@Valid @RequestBody AdoptionDTO adoptionDTO) {
+        Adoption adoption = adoptionMapper.toEntity(adoptionDTO);
+        Adoption savedAdoption = adoptionService.createAdoption(adoption);
+        return new ResponseEntity<>(adoptionMapper.toDTO(savedAdoption), HttpStatus.CREATED);
     }
 
     @PutMapping("/{adoptionId}")
-    public ResponseEntity<Adoption> updateAdoption(@PathVariable Long adoptionId, @Valid @RequestBody Adoption adoption) {
+    public ResponseEntity<AdoptionDTO> updateAdoption(@PathVariable Long adoptionId, @Valid @RequestBody AdoptionDTO adoptionDTO) {
+        Adoption adoption = adoptionMapper.toEntity(adoptionDTO);
         Adoption updatedAdoption = adoptionService.updateAdoption(adoptionId, adoption);
         if (updatedAdoption != null) {
-            return new ResponseEntity<>(updatedAdoption, HttpStatus.OK);
+            return new ResponseEntity<>(adoptionMapper.toDTO(updatedAdoption), HttpStatus.OK);
         } else {
             throw new ResourceNotFoundException("Adoption not found with id: " + adoptionId);
         }
@@ -52,12 +64,18 @@ public class AdoptionController {
     }
 
     @GetMapping("/adopter/{adopterId}")
-    public ResponseEntity<List<Adoption>> getAdoptionsByAdopter(@PathVariable Long adopterId) {
-        return new ResponseEntity<>(adoptionService.getAdoptionsByAdopter(adopterId), HttpStatus.OK);
+    public ResponseEntity<List<AdoptionDTO>> getAdoptionsByAdopter(@PathVariable Long adopterId) {
+        List<AdoptionDTO> adoptionDTOs = adoptionService.getAdoptionsByAdopter(adopterId).stream()
+                .map(adoptionMapper::toDTO)
+                .collect(Collectors.toList());
+        return new ResponseEntity<>(adoptionDTOs, HttpStatus.OK);
     }
 
     @GetMapping("/animal/{animalId}")
-    public ResponseEntity<List<Adoption>> getAdoptionsByAnimal(@PathVariable Long animalId) {
-        return new ResponseEntity<>(adoptionService.getAdoptionsByAnimal(animalId), HttpStatus.OK);
+    public ResponseEntity<List<AdoptionDTO>> getAdoptionsByAnimal(@PathVariable Long animalId) {
+        List<AdoptionDTO> adoptionDTOs = adoptionService.getAdoptionsByAnimal(animalId).stream()
+                .map(adoptionMapper::toDTO)
+                .collect(Collectors.toList());
+        return new ResponseEntity<>(adoptionDTOs, HttpStatus.OK);
     }
 }

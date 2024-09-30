@@ -1,5 +1,6 @@
 package com.promineotech.animalshelter.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -40,6 +41,7 @@ public class Adopter {
     @Column(name = "registration_date")
     private LocalDate registrationDate;
 
-    @OneToMany(mappedBy = "adopter", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "adopter", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Adoption> adoptions;
 }

@@ -1,5 +1,7 @@
 package com.promineotech.animalshelter.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -41,9 +43,11 @@ public class Animal {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shelter_id")
+    @JsonBackReference
     private Shelter shelter;
 
-    @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Adoption> adoptions;
 
     public enum AnimalStatus {

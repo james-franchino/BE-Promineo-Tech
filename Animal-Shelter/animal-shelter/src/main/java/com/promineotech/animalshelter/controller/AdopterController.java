@@ -1,7 +1,10 @@
 package com.promineotech.animalshelter.controller;
 
+import com.promineotech.animalshelter.dto.AnimalShelterDTOs.AdopterDTO;
+import com.promineotech.animalshelter.dto.AnimalShelterDTOs.AdopterDetailsDTO;
 import com.promineotech.animalshelter.entity.Adopter;
 import com.promineotech.animalshelter.exception.ResourceNotFoundException;
+import com.promineotech.animalshelter.mapper.AdopterMapper;
 import com.promineotech.animalshelter.service.AdopterService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/adopters")
@@ -18,28 +22,37 @@ public class AdopterController {
     @Autowired
     private AdopterService adopterService;
 
+    @Autowired
+    private AdopterMapper adopterMapper;
+
     @GetMapping
-    public ResponseEntity<List<Adopter>> getAllAdopters() {
-        return new ResponseEntity<>(adopterService.getAllAdopters(), HttpStatus.OK);
+    public ResponseEntity<List<AdopterDTO>> getAllAdopters() {
+        List<AdopterDTO> adopterDTOs = adopterService.getAllAdopters().stream()
+                .map(adopterMapper::toDTO)
+                .collect(Collectors.toList());
+        return new ResponseEntity<>(adopterDTOs, HttpStatus.OK);
     }
 
     @GetMapping("/{adopterId}")
-    public ResponseEntity<Adopter> getAdopterById(@PathVariable Long adopterId) {
+    public ResponseEntity<AdopterDetailsDTO> getAdopterById(@PathVariable Long adopterId) {
         return adopterService.getAdopterById(adopterId)
-                .map(adopter -> new ResponseEntity<>(adopter, HttpStatus.OK))
+                .map(adopter -> new ResponseEntity<>(adopterMapper.toDetailsDTO(adopter), HttpStatus.OK))
                 .orElseThrow(() -> new ResourceNotFoundException("Adopter not found with id: " + adopterId));
     }
 
     @PostMapping
-    public ResponseEntity<Adopter> createAdopter(@Valid @RequestBody Adopter adopter) {
-        return new ResponseEntity<>(adopterService.createAdopter(adopter), HttpStatus.CREATED);
+    public ResponseEntity<AdopterDTO> createAdopter(@Valid @RequestBody AdopterDTO adopterDTO) {
+        Adopter adopter = adopterMapper.toEntity(adopterDTO);
+        Adopter savedAdopter = adopterService.createAdopter(adopter);
+        return new ResponseEntity<>(adopterMapper.toDTO(savedAdopter), HttpStatus.CREATED);
     }
 
     @PutMapping("/{adopterId}")
-    public ResponseEntity<Adopter> updateAdopter(@PathVariable Long adopterId, @Valid @RequestBody Adopter adopter) {
+    public ResponseEntity<AdopterDTO> updateAdopter(@PathVariable Long adopterId, @Valid @RequestBody AdopterDTO adopterDTO) {
+        Adopter adopter = adopterMapper.toEntity(adopterDTO);
         Adopter updatedAdopter = adopterService.updateAdopter(adopterId, adopter);
         if (updatedAdopter != null) {
-            return new ResponseEntity<>(updatedAdopter, HttpStatus.OK);
+            return new ResponseEntity<>(adopterMapper.toDTO(updatedAdopter), HttpStatus.OK);
         } else {
             throw new ResourceNotFoundException("Adopter not found with id: " + adopterId);
         }

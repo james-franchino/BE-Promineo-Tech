@@ -1,5 +1,6 @@
 package com.promineotech.animalshelter.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -35,9 +36,11 @@ public class Shelter {
     @Positive(message = "Capacity must be a positive number")
     private Integer capacity;
 
-    @OneToMany(mappedBy = "shelter", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "shelter", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Animal> animals;
 
-    @OneToMany(mappedBy = "shelter", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "shelter", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Staff> staff;
 }

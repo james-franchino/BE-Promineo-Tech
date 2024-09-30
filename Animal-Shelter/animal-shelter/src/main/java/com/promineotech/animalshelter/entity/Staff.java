@@ -1,5 +1,6 @@
 package com.promineotech.animalshelter.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -42,5 +43,6 @@ public class Staff {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shelter_id", nullable = false)
+    @JsonBackReference
     private Shelter shelter;
 }
