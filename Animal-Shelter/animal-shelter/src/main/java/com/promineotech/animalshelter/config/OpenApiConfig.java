@@ -5,9 +5,18 @@ import io.swagger.v3.oas.models.info.Info;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Configuration class for OpenAPI documentation.
+ * This class sets up the OpenAPI configuration for the Animal Shelter API.
+ */
 @Configuration
 public class OpenApiConfig {
 
+    /**
+     * Configures the OpenAPI documentation for the Animal Shelter API.
+     *
+     * @return OpenAPI object containing API information
+     */
     @Bean
     public OpenAPI usersMicroserviceOpenAPI() {
         return new OpenAPI()

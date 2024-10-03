@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * REST Controller for managing Animal resources.
+ */
 @RestController
 @RequestMapping("/animals")
 public class AnimalController {
@@ -25,6 +28,11 @@ public class AnimalController {
     @Autowired
     private AnimalMapper animalMapper;
 
+    /**
+     * Retrieves all animals.
+     *
+     * @return List of all animals
+     */
     @GetMapping
     public ResponseEntity<List<AnimalDTO>> getAllAnimals() {
         List<AnimalDTO> animalDTOs = animalService.getAllAnimals().stream()
@@ -33,6 +41,13 @@ public class AnimalController {
         return new ResponseEntity<>(animalDTOs, HttpStatus.OK);
     }
 
+    /**
+     * Retrieves a specific animal by its ID.
+     *
+     * @param animalId The ID of the animal to retrieve
+     * @return The animal details
+     * @throws ResourceNotFoundException if the animal is not found
+     */
     @GetMapping("/{animalId}")
     public ResponseEntity<AnimalDetailsDTO> getAnimalById(@PathVariable Long animalId) {
         return animalService.getAnimalById(animalId)
@@ -40,6 +55,12 @@ public class AnimalController {
                 .orElseThrow(() -> new ResourceNotFoundException("Animal not found with id: " + animalId));
     }
 
+    /**
+     * Creates a new animal.
+     *
+     * @param animalDTO The animal data to create
+     * @return The created animal
+     */
     @PostMapping
     public ResponseEntity<AnimalDTO> createAnimal(@Valid @RequestBody AnimalDTO animalDTO) {
         Animal animal = animalMapper.toEntity(animalDTO);

@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * REST Controller for managing Adoption resources.
+ */
 @RestController
 @RequestMapping("/adoptions")
 public class AdoptionController {
@@ -24,6 +27,11 @@ public class AdoptionController {
     @Autowired
     private AdoptionMapper adoptionMapper;
 
+    /**
+     * Retrieves all adoptions.
+     *
+     * @return List of all adoptions
+     */
     @GetMapping
     public ResponseEntity<List<AdoptionDTO>> getAllAdoptions() {
         List<AdoptionDTO> adoptionDTOs = adoptionService.getAllAdoptions().stream()
@@ -32,6 +40,13 @@ public class AdoptionController {
         return new ResponseEntity<>(adoptionDTOs, HttpStatus.OK);
     }
 
+    /**
+     * Retrieves a specific adoption by its ID.
+     *
+     * @param adoptionId The ID of the adoption to retrieve
+     * @return The adoption details
+     * @throws ResourceNotFoundException if the adoption is not found
+     */
     @GetMapping("/{adoptionId}")
     public ResponseEntity<AdoptionDTO> getAdoptionById(@PathVariable Long adoptionId) {
         return adoptionService.getAdoptionById(adoptionId)
@@ -39,6 +54,12 @@ public class AdoptionController {
                 .orElseThrow(() -> new ResourceNotFoundException("Adoption not found with id: " + adoptionId));
     }
 
+    /**
+     * Creates a new adoption.
+     *
+     * @param adoptionDTO The adoption data to create
+     * @return The created adoption
+     */
     @PostMapping
     public ResponseEntity<AdoptionDTO> createAdoption(@Valid @RequestBody AdoptionDTO adoptionDTO) {
         Adoption adoption = adoptionMapper.toEntity(adoptionDTO);

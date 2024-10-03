@@ -11,6 +11,9 @@ import lombok.*;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Entity representing an Animal in the shelter system.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -41,15 +44,26 @@ public class Animal {
     @NotNull(message = "Intake date is required")
     private LocalDate intakeDate;
 
+    /**
+     * Represents the shelter where the animal is housed.
+     * Many animals can belong to one shelter.
+     */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shelter_id")
     @JsonBackReference
     private Shelter shelter;
 
+    /**
+     * Represents the adoptions associated with this animal.
+     * One animal can have multiple adoption records.
+     */
     @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Adoption> adoptions;
 
+    /**
+     * Enum representing the possible statuses of an animal.
+     */
     public enum AnimalStatus {
         AVAILABLE, ADOPTED, PENDING, UNDER_TREATMENT
     }

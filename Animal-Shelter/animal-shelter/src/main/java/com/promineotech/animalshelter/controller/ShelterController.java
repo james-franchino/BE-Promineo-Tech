@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * REST Controller for managing Shelter resources.
+ */
 @RestController
 @RequestMapping("/shelters")
 public class ShelterController {
@@ -25,6 +28,11 @@ public class ShelterController {
     @Autowired
     private ShelterMapper shelterMapper;
 
+    /**
+     * Retrieves all shelters.
+     *
+     * @return List of all shelters
+     */
     @GetMapping
     public ResponseEntity<List<ShelterDTO>> getAllShelters() {
         List<ShelterDTO> shelterDTOs = shelterService.getAllShelters().stream()
@@ -33,6 +41,13 @@ public class ShelterController {
         return new ResponseEntity<>(shelterDTOs, HttpStatus.OK);
     }
 
+    /**
+     * Retrieves a specific shelter by its ID.
+     *
+     * @param shelterId The ID of the shelter to retrieve
+     * @return The shelter details
+     * @throws ResourceNotFoundException if the shelter is not found
+     */
     @GetMapping("/{shelterId}")
     public ResponseEntity<ShelterDetailsDTO> getShelterById(@PathVariable Long shelterId) {
         return shelterService.getShelterById(shelterId)
@@ -40,6 +55,12 @@ public class ShelterController {
                 .orElseThrow(() -> new ResourceNotFoundException("Shelter not found with id: " + shelterId));
     }
 
+    /**
+     * Creates a new shelter.
+     *
+     * @param shelterDTO The shelter data to create
+     * @return The created shelter
+     */
     @PostMapping
     public ResponseEntity<ShelterDTO> createShelter(@Valid @RequestBody ShelterDTO shelterDTO) {
         Shelter shelter = shelterMapper.toEntity(shelterDTO);

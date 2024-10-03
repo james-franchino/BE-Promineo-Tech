@@ -11,9 +11,20 @@ import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * Global exception handler for the application.
+ * This class provides centralized exception handling across all @RequestMapping methods.
+ */
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+    /**
+     * Handles general exceptions.
+     *
+     * @param ex The exception that was thrown
+     * @param request The web request during which the exception was thrown
+     * @return ResponseEntity with error details
+     */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleGlobalException(Exception ex, WebRequest request) {
         Map<String, Object> body = new LinkedHashMap<>();
@@ -23,6 +34,14 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    /**
+     * Handles ResourceNotFoundException.
+     * This exception is thrown when a requested resource is not found.
+     *
+     * @param ex The ResourceNotFoundException that was thrown
+     * @param request The web request during which the exception was thrown
+     * @return ResponseEntity with error details
+     */
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<Object> handleResourceNotFoundException(ResourceNotFoundException ex, WebRequest request) {
         Map<String, Object> body = new LinkedHashMap<>();

@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * REST Controller for managing Adopter resources.
+ */
 @RestController
 @RequestMapping("/adopters")
 public class AdopterController {
@@ -25,6 +28,11 @@ public class AdopterController {
     @Autowired
     private AdopterMapper adopterMapper;
 
+    /**
+     * Retrieves all adopters.
+     *
+     * @return List of all adopters
+     */
     @GetMapping
     public ResponseEntity<List<AdopterDTO>> getAllAdopters() {
         List<AdopterDTO> adopterDTOs = adopterService.getAllAdopters().stream()
@@ -33,6 +41,13 @@ public class AdopterController {
         return new ResponseEntity<>(adopterDTOs, HttpStatus.OK);
     }
 
+    /**
+     * Retrieves a specific adopter by their ID.
+     *
+     * @param adopterId The ID of the adopter to retrieve
+     * @return The adopter details
+     * @throws ResourceNotFoundException if the adopter is not found
+     */
     @GetMapping("/{adopterId}")
     public ResponseEntity<AdopterDetailsDTO> getAdopterById(@PathVariable Long adopterId) {
         return adopterService.getAdopterById(adopterId)
@@ -40,6 +55,12 @@ public class AdopterController {
                 .orElseThrow(() -> new ResourceNotFoundException("Adopter not found with id: " + adopterId));
     }
 
+    /**
+     * Creates a new adopter.
+     *
+     * @param adopterDTO The adopter data to create
+     * @return The created adopter
+     */
     @PostMapping
     public ResponseEntity<AdopterDTO> createAdopter(@Valid @RequestBody AdopterDTO adopterDTO) {
         Adopter adopter = adopterMapper.toEntity(adopterDTO);

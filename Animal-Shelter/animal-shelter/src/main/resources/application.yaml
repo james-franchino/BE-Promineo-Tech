@@ -1,16 +1,22 @@
+# Spring Boot application configuration
+
 spring:
   datasource:
+    # Database connection settings
     username: shelter_user
     password: shelter_user
     url: jdbc:mysql://localhost:3306/animal_shelter
 
   jpa:
     hibernate:
+      # Automatically update the database schema
       ddl-auto: create
+    # Show SQL statements in logs
     show-sql: true
+    # Defer datasource initialization until after JPA entities are initialized
     defer-datasource-initialization: true
 
   sql:
     init:
+      # Always initialize the database using data.sql
       mode: always
-
