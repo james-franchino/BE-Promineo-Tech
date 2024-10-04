@@ -3,6 +3,7 @@ package com.promineotech.animalshelter.mapper;
 import com.promineotech.animalshelter.dto.AnimalShelterDTOs.AnimalDTO;
 import com.promineotech.animalshelter.dto.AnimalShelterDTOs.AnimalDetailsDTO;
 import com.promineotech.animalshelter.entity.Animal;
+import com.promineotech.animalshelter.entity.Shelter;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
@@ -60,6 +61,13 @@ public class AnimalMapper {
         animal.setGender(animalDTO.gender());
         animal.setStatus(animalDTO.status());
         animal.setIntakeDate(animalDTO.intakeDate());
+
+        if (animalDTO.shelterId() != null) {
+            Shelter shelter = new Shelter();
+            shelter.setShelterId(animalDTO.shelterId());
+            animal.setShelter(shelter);
+        }
+
         return animal;
     }
 }

@@ -1,7 +1,9 @@
 package com.promineotech.animalshelter.service;
 
 import com.promineotech.animalshelter.dao.AnimalRepository;
+import com.promineotech.animalshelter.dao.ShelterRepository;
 import com.promineotech.animalshelter.entity.Animal;
+import com.promineotech.animalshelter.entity.Shelter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,9 @@ import java.util.Optional;
 public class AnimalServiceImpl implements AnimalService {
     @Autowired
     private AnimalRepository animalRepository;
+
+    @Autowired
+    private ShelterRepository shelterRepository;
 
     @Override
     public List<Animal> getAllAnimals() {
@@ -25,6 +30,10 @@ public class AnimalServiceImpl implements AnimalService {
 
     @Override
     public Animal createAnimal(Animal animal) {
+        if (animal.getShelter() != null && animal.getShelter().getShelterId() != null) {
+            Optional<Shelter> shelter = shelterRepository.findById(animal.getShelter().getShelterId());
+            shelter.ifPresent(animal::setShelter);
+        }
         return animalRepository.save(animal);
     }
 
